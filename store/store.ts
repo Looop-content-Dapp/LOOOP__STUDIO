@@ -1,15 +1,27 @@
 import { create } from 'zustand';
 
-export interface BearState {
-  bears: number;
-  increasePopulation: () => void;
-  removeAllBears: () => void;
-  updateBears: (newBears: number) => void;
+interface Wallet {
+  address: string;
 }
 
-export const useStore = create<BearState>((set) => ({
-  bears: 0,
-  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
-  removeAllBears: () => set({ bears: 0 }),
-  updateBears: (newBears) => set({ bears: newBears }),
+interface Wallets {
+  xion?: Wallet;
+  starknet?: Wallet;
+  [key: string]: Wallet | undefined;
+}
+
+export interface UserData {
+  _id: string;
+  wallets?: Wallets;
+  [key: string]: any;
+}
+
+export interface AuthState {
+  userdata: UserData | null;
+  setUserData: (data: UserData | null) => void;
+}
+
+export const useStore = create<AuthState>((set) => ({
+  userdata: null,
+  setUserData: (data) => set({ userdata: data }),
 }));

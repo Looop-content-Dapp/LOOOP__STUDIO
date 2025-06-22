@@ -29,16 +29,27 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#A187B5"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.josephweb3.looop--studio",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#A187B5"
+      },
+      "package": "com.josephweb3.looop__studio"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a326a721-7e42-4cdc-86c1-6d079da81d2d"
       }
     }
   }
