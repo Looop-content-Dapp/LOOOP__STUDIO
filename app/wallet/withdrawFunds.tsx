@@ -6,14 +6,14 @@ import { router, useNavigation } from 'expo-router';
 import { useLayoutEffect, useState } from 'react';
 import { Alert, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 
-type ChainType = 'XION' | 'Starknet';
+type ChainType = 'Starknet';
 
 const WithdrawScreen = () => {
   const navigation = useNavigation();
-  const [selectedChain, setSelectedChain] = useState<ChainType>('XION');
+  const [selectedChain, setSelectedChain] = useState<ChainType>('Starknet');
   const userdata = useStore((state) => state.userdata);
 
-  const chainOptions: ChainType[] = ['XION', 'Starknet'];
+  const chainOptions: ChainType[] = ['Starknet'];
 
   useLayoutEffect(() => {
     navigation.setOptions({

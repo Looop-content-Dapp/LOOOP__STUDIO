@@ -14,7 +14,7 @@ export default function _WalletLayout() {
         title: '',
       }}>
       <Stack.Screen name="index" />
-      <Stack.Screen name="withdraw" />
+
       <Stack.Screen name="cryptoWithdraw" />
       <Stack.Screen name="musicStreams" />
       <Stack.Screen name="tribeSubscriptions" />
@@ -40,6 +40,7 @@ export default function _WalletLayout() {
           title: '',
         }}
       />
+      <Stack.Screen name="WithdrawFundsScreen" />
     </Stack>
   );
 }

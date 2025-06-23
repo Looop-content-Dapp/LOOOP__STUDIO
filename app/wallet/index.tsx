@@ -68,11 +68,11 @@ const WalletScreen = () => {
   };
 
   const handleWithdrawFunds = () => {
-    router.push('/wallet/withdraw');
+    router.push('/wallet/withdrawFundsScreen');
   };
 
   const handleConnectedAccounts = () => {
-    router.push('/connectedAccounts');
+    router.push('/wallet/connectedAccountsScreen');
   };
 
   return (

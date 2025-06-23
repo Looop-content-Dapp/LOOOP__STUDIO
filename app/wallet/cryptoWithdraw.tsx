@@ -98,7 +98,7 @@ const CryptoWithdrawScreen = () => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0D0D0D]">
+    <SafeAreaView className="flex-1 bg-[#040405]">
       <View className="flex-1 px-6">
         <View className="flex-1">
           {/* Header */}
