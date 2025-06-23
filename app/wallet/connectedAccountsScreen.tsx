@@ -1,6 +1,8 @@
 import { AppBackButton } from '@/components/app-components/back-btn';
-import { FormField } from '@/components/app-components/formField';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
 import { useFlutterwaveBanks } from '@/hooks/payment/useFlutterwaveBanks';
+import { useVerifyBankAccount } from '@/hooks/payment/useVerifyBankAccount';
 import useUserInfo from '@/hooks/user/useUserInfo';
 import {
   Add01Icon,
@@ -11,8 +13,8 @@ import {
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { router, useNavigation } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useLayoutEffect, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 type ScreenType = 'main' | 'addAccount' | 'accountDetails';
@@ -64,6 +66,32 @@ const ConnectedAccountsScreen = () => {
     isLoading: banksLoading,
     error: banksError,
   } = useFlutterwaveBanks(location?.country || 'NG');
+  const {
+    verifyAccount,
+    accountName,
+    isLoading: isVerifying,
+    error: verificationError,
+    reset: resetVerification,
+  } = useVerifyBankAccount();
+
+  useEffect(() => {
+    if (newAccount.accountNumber && selectedBank?.value) {
+      // Basic validation for account number length can be added here.
+      // For Nigerian banks, it is 10.
+      if (newAccount.accountNumber.length === 10) {
+        verifyAccount({
+          accountNumber: newAccount.accountNumber,
+          bankCode: selectedBank.value,
+        });
+      }
+    }
+  }, [newAccount.accountNumber, selectedBank]);
+
+  useEffect(() => {
+    if (accountName) {
+      setNewAccount((prev) => ({ ...prev, accountName }));
+    }
+  }, [accountName]);
 
   const handleBackNavigation = () => {
     if (activeScreen !== 'main') {
@@ -150,20 +178,22 @@ const ConnectedAccountsScreen = () => {
         </Text>
       </View>
 
-      <FormField.TextField
+      <Input
         label="Account Number"
         placeholder="Enter account number"
         value={newAccount.accountNumber}
-        onChangeText={(text: string) => setNewAccount({ ...newAccount, accountNumber: text })}
+        onChangeText={(text: string) => {
+          setNewAccount({ ...newAccount, accountNumber: text, accountName: '' });
+          resetVerification();
+        }}
         keyboardType="numeric"
       />
 
-      <FormField.PickerField
+      <Select
         label="Select Bank"
-        placeholder={banksLoading ? 'Loading banks...' : 'Choose your bank'}
-        value={selectedBank?.label || ''}
-        onSelect={(value: any) => {
-          const bank = flutterwaveBanks?.find((b) => b.name === value);
+        value={selectedBank?.value || ''}
+        onValueChange={(value: any) => {
+          const bank = flutterwaveBanks?.find((b) => b.code === value);
           if (bank) {
             setSelectedBank({
               label: bank.name,
@@ -171,7 +201,8 @@ const ConnectedAccountsScreen = () => {
               logo: '🏦',
               branches: [],
             });
-            setNewAccount((prev) => ({ ...prev, bankName: bank.name }));
+            setNewAccount((prev) => ({ ...prev, bankName: bank.name, accountName: '' }));
+            resetVerification();
           }
         }}
         options={
@@ -180,7 +211,7 @@ const ConnectedAccountsScreen = () => {
             value: bank.code,
           })) || []
         }
-        // disabled={banksLoading || !!banksError}
+        disabled={banksLoading || !!banksError}
       />
 
       {banksError && (
@@ -192,12 +223,31 @@ const ConnectedAccountsScreen = () => {
         </View>
       )}
 
-      <FormField.TextField
+      <Input
         label="Account Name"
-        placeholder="Enter account name"
+        placeholder={isVerifying ? 'Verifying...' : 'Account name'}
         value={newAccount.accountName}
         onChangeText={(text: string) => setNewAccount({ ...newAccount, accountName: text })}
+        editable={!isVerifying && !accountName}
       />
+
+      {isVerifying && (
+        <View className="mt-2 flex-row items-center gap-x-2 p-2">
+          <ActivityIndicator color="#FF6D1B" />
+          <Text className="font-PlusJakartaSansRegular text-[14px] text-white">
+            Verifying account details...
+          </Text>
+        </View>
+      )}
+
+      {verificationError && (
+        <View className="mt-2 flex-row items-start gap-x-[8px] rounded-[10px] bg-[#2A1208] p-[12px]">
+          <HugeiconsIcon icon={InformationCircleIcon} size={16} color="#FF3B30" variant="stroke" />
+          <Text className="font-PlusJakartaSansRegular text-[14px] text-[#FF3B30]">
+            {verificationError}
+          </Text>
+        </View>
+      )}
 
       <TouchableOpacity
         className={`mt-6 rounded-lg bg-[#FF6D1B] py-[16px] ${
