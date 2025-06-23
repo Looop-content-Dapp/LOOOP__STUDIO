@@ -1,4 +1,10 @@
-import { Calendar01Icon, Gif01Icon, ImageAdd01Icon, VoiceIcon } from '@hugeicons/core-free-icons';
+import {
+  Calendar01Icon,
+  Gif01Icon,
+  ImageAdd01Icon,
+  ShoppingBag01Icon,
+  VoiceIcon,
+} from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -54,20 +60,34 @@ export default function CreatePostModal() {
 
         <View className="mb-4">
           <TouchableOpacity className="flex-row items-center gap-4 border-y border-[#202227] py-4">
-            <HugeiconsIcon icon={ImageAdd01Icon} size={24} />
-            <Text className="text-base text-[#d2d3d5]">Add a photo/video</Text>
+            <HugeiconsIcon icon={ImageAdd01Icon} size={24} color="#63656B" />
+            <Text className="font-PlusJakartaSansBold text-base text-[#d2d3d5]">
+              Add a photo/video
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-row items-center gap-4 border-b border-[#202227] py-4">
-            <HugeiconsIcon icon={Gif01Icon} size={24} />
-            <Text className="text-base text-[#d2d3d5]">Add a GIF file</Text>
+            <HugeiconsIcon icon={Gif01Icon} size={24} color="#63656B" />
+            <Text className="font-PlusJakartaSansBold text-base text-[#d2d3d5]">
+              Add a GIF file
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-row items-center gap-4 border-b border-[#202227] py-4">
-            <HugeiconsIcon icon={VoiceIcon} size={24} />
-            <Text className="text-base text-[#d2d3d5]">Add audio file</Text>
+            <HugeiconsIcon icon={VoiceIcon} size={24} color="#63656B" />
+            <Text className="font-PlusJakartaSansBold text-base text-[#d2d3d5]">
+              Add audio file
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity className="flex-row items-center gap-4 border-b border-[#202227] py-4">
-            <HugeiconsIcon icon={Calendar01Icon} size={24} />
-            <Text className="text-base text-[#ff8a49]">Create an event</Text>
+            <HugeiconsIcon icon={Calendar01Icon} size={24} color="#63656B" />
+            <Text className="font-PlusJakartaSansBold text-base text-[#ff8a49]">
+              Create an event
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="flex-row items-center gap-4 border-b border-[#202227] py-4">
+            <HugeiconsIcon icon={ShoppingBag01Icon} size={24} color="#63656B" />
+            <Text className="font-PlusJakartaSansBold text-base text-[#ff8a49]">
+              Create a store
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
